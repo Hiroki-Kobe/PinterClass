@@ -5,9 +5,7 @@ public class BarControll implements Runnable{
 	final BarView view;
 	final BarData bardata;
 	private boolean running = true;
-	String status;
 
-		
 	
 	public BarControll(BarView bar, BarData data){
 		this.view = bar;
@@ -15,13 +13,17 @@ public class BarControll implements Runnable{
 	}
 	
 	
-	
+
 	@Override
 	public void run() {
 		while(running){
 			try{
 				Thread.sleep(50);
-				stopRun();
+				checkRun();
+			    if(running=false){
+					wait();
+				}
+
 			}catch(InterruptedException ignore){}
 			    
 			    progress = bardata.getValue();
@@ -30,29 +32,13 @@ public class BarControll implements Runnable{
 		}
 	}
 
-
-	public void stopRun(){
-		status = view.StartStop();
-		if(status == "stop"){
-			running = false;
-		}else{
-			running =true;
-		}
-	}
-
 	
-	
-	public void startRun(){
-		status = view.StartStop();
-		if(status == "start"){
-			running = false;
-		}else{
-			running =true;
-		}
-	}
+    public void checkRun(){
+    	running = view.startStop();
+    }
+ 
 	
 
-	
 	public static void main(String[] args){
 		BarView view = new BarView();
 		BarData bardata = new BarData();

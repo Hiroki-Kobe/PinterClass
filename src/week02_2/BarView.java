@@ -16,7 +16,7 @@ public class BarView extends JFrame implements ActionListener{
 	final  JProgressBar bar;
 	final  JButton startButton;
 	final  JButton stopButton;
-	static String status;
+	boolean running;
 
 	
 	public BarView(){
@@ -43,19 +43,24 @@ public class BarView extends JFrame implements ActionListener{
 	
 	
 	public void actionPerformed(ActionEvent e){
-		String cmd = e.getActionCommand();
-		
-		if(cmd.equals("restart")){
-			startButton.setEnabled(false);
-			stopButton.setEnabled(true);
-			this.status = "restart";
+//		String cmd = e.getActionCommand();
+//		
+//		if(cmd.equals("restart")){
+//			startButton.setEnabled(false);
+//			stopButton.setEnabled(true);
+//			this.running = true;
+//
+//		}else if(cmd.equals("stop")){
+//			startButton.setEnabled(true);
+//			stopButton.setEnabled(false);
+//			this.running = false;
+//		}
 
-		}else if(cmd.equals("stop")){
-			startButton.setEnabled(true);
-			stopButton.setEnabled(false);
-			this.status = "stop";
+		if(e.getSource() == startButton){
+			Restart();
+		}else if (e.getSource() == stopButton){
+			Stop();
 		}
-		
 	}
 	
 	public void setValue(int progress){
@@ -63,11 +68,25 @@ public class BarView extends JFrame implements ActionListener{
 		this.bar.setString(progress +"%");
 	}
 	
-	public String StartStop(){
-		return status;
-	}
-		
+	public boolean Stop(){
+		startButton.setEnabled(true);
+		stopButton.setEnabled(false);
 
+		this.running = false;
+		return this.running;
+	}
+	
+	public boolean Restart(){
+		startButton.setEnabled(false);
+		stopButton.setEnabled(true);
+
+		this.running = true;
+		return this.running;
+	}	
+
+	public boolean startStop(){
+		return this.running; 
+	}
 	
 	public void startProgram(){
 		
